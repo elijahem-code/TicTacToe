@@ -1,0 +1,41 @@
+/* Elijah Emmanuel */
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    margin-top:30px;
+    background-color:#000000;
+    color:#ffffff;
+}
+
+#login{
+    margin-bottom:20px;
+}
+
+#login input{
+    padding:8px;
+    margin:5px;
+}
+
+#login button{
+    padding:8px 12px;
+}
+
+#role{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+#status{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+#board{
+    display:block;
+    margin:20px auto;
+    border:3px solid #3760cf;
+    cursor:pointer;
+}
