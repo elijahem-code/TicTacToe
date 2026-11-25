@@ -25,12 +25,28 @@ let players = {
     O: null
 };
 
+let spectators = [];
+
 // SEND GAME STATE TO EVERYONE
 function broadcastState() {
 
     const payload = JSON.stringify({
         type: "state",
         gameState
+    });
+
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(payload);
+        }
+    });
+}
+// SEND SPECTATORS TO EVERYONE
+function broadcastSpectators() {
+
+    const payload = JSON.stringify({
+        type: "spectators",
+        spectators: spectators
     });
 
     wss.clients.forEach(client => {
@@ -113,6 +129,7 @@ wss.on("connection", ws => {
             } else {
 
                 ws.role = "spectator";
+                spectators.push(ws.playerName);
             }
 
             ws.send(JSON.stringify({
@@ -120,6 +137,9 @@ wss.on("connection", ws => {
                 role: ws.role,
                 name: ws.playerName
             }));
+
+            broadcastState();
+            broadcastSpectators();
 
             return;
         }
@@ -180,17 +200,28 @@ wss.on("connection", ws => {
     });
 
     // DISCONNECT
-    ws.on("close", () => {
+   ws.on("close", () => {
 
-        if(players.X === ws){
-            players.X = null;
-        }
+    if(players.X === ws){
+        players.X = null;
+    }
 
-        if(players.O === ws){
-            players.O = null;
-        }
-    });
+    if(players.O === ws){
+        players.O = null;
+    }
+
+    spectators = spectators.filter(
+        spectator => spectator !== ws.playerName
+    );
+
+    broadcastSpectators();
 });
+
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, "0.0.0.0", () => {console.log(`Server running on port ${PORT}`);
+} );
 
 server.listen(3000, () => {
     console.log("Server running at http://localhost:3000");
