@@ -189,6 +189,12 @@ wss.on("connection", ws => {
         // RESET
         if(data.type === "reset"){
 
+            const boardFull = !gameState.board.includes("");
+
+            if (!gameState.winner && !boardFull) {
+                return;
+            }
+            
             gameState = {
                 board: Array(9).fill(""),
                 currentPlayer: "X",
