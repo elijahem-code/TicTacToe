@@ -122,6 +122,7 @@ function drawBoard(){
         statusElement.textContent =
             `Turn: ${gameState.currentPlayer}`;
     }
+}
 
 boardCanvas.addEventListener("click", event => {
 
