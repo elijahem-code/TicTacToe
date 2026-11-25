@@ -103,17 +103,25 @@ function drawBoard(){
         }
     });
 
-    if(gameState.winner){
+    const boardFull = !gameState.board.includes("");
+
+    if (gameState.winner) {
 
         statusElement.textContent =
-        `Winner: ${gameState.winner}`;
+            `Winner: ${gameState.winner}`;
 
-    } else {
-
-        statusElement.textContent =
-        `Turn: ${gameState.currentPlayer}`;
     }
-}
+    else if (boardFull) {
+
+        statusElement.textContent =
+            "Tie Game! Press Reset.";
+
+    }
+    else {
+
+        statusElement.textContent =
+            `Turn: ${gameState.currentPlayer}`;
+    }
 
 boardCanvas.addEventListener("click", event => {
 
