@@ -6,6 +6,8 @@ const ctx = boardCanvas.getContext("2d");
 const statusElement = document.getElementById("status");
 const roleElement = document.getElementById("role");
 
+const spectatorsElement = document.getElementById("spectators");
+
 const resetBtn = document.getElementById("resetBtn");
 const joinBtn = document.getElementById("joinBtn");
 
@@ -161,10 +163,17 @@ ws.onmessage = event => {
         `Logged in as ${data.name} (${role})`;
     }
 
+    if (data.type === "spectators") {
+
+        spectatorsElement.textContent = "Spectators: " + data.spectators.join(", ");
+    }
+
     if(data.type === "error"){
 
         alert(data.message);
     }
+
+
 };
 
 // JOIN GAME
